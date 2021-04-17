@@ -5,7 +5,7 @@ import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SigninScreen extends StatefulWidget {
   @override
@@ -153,9 +153,13 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                                       setState(() {
                                         _isLoading = true;
                                       });
-                                      User user = User();
-                                      bool isSignedIn =
-                                          await user.signIn(_email, _password);
+                                      bool isSignedIn = await Provider.of<User>(
+                                              context,
+                                              listen: false)
+                                          .signIn(_email, _password);
+
+                                      // bool isSignedIn =
+                                      //     await user.signIn(_email, _password);
 
                                       setState(() {
                                         _isLoading = false;

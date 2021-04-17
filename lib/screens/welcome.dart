@@ -1,4 +1,6 @@
+import 'package:flutapp/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -7,10 +9,12 @@ class Welcome extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            color: Colors.black,
-            height: 100,
-            width: 100,
-            child: Text("welcome"),
+            child: Consumer<User>(
+              builder: (BuildContext context, user, _) {
+                return Text(
+                    "${user.fullname} and ${user.email} and ${user.registrationDate}");
+              },
+            ),
           ),
         ),
       ),

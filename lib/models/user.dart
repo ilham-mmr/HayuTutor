@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-class User {
+class User with ChangeNotifier {
   String _fullName, _email, _registrationDate;
 
   Future<bool> signUp(String fullname, String email, String password) async {
@@ -28,9 +29,22 @@ class User {
       _fullName = data['user']['full_name'];
       _email = data['user']['email'];
       _registrationDate = data['user']['registration_date'];
+      notifyListeners();
       return true;
     } else {
       return false;
     }
+  }
+
+  String get fullname {
+    return _fullName;
+  }
+
+  String get email {
+    return _email;
+  }
+
+  String get registrationDate {
+    return _registrationDate;
   }
 }
