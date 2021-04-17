@@ -1,5 +1,8 @@
+import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/signup_screen.dart';
 import 'package:flutapp/screens/welcome.dart';
+import 'package:flutapp/utils/user_preferences.dart';
+import 'package:flutapp/mixins/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,11 +12,17 @@ class SigninScreen extends StatefulWidget {
   _SigninScreenState createState() => _SigninScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _SigninScreenState extends State<SigninScreen> with Validator {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    _email = UserPreferences.getEmail() ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +62,10 @@ class _SigninScreenState extends State<SigninScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          initialValue: _email,
+                          onChanged: (value) {
+                            _email = value;
+                          },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -65,7 +78,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             hintText: 'youremail@example.com',
                             prefixIcon: Icon(Icons.email),
                           ),
-                          validator: _validateEmail,
+                          validator: validateEmail,
                           onSaved: (newValue) => _email = newValue,
                         ),
                         SizedBox(
@@ -89,12 +102,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                     onTap: _forgotPassword,
                                     child: Text(
                                       'forgot?',
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold),
+                                      style: _boldCyanTextStyle(context),
                                     ),
                                   ))),
-                          validator: _validatePassword,
+                          validator: validatePassword,
                           onSaved: (newValue) => _password = newValue,
                         ),
                         SizedBox(
@@ -104,7 +115,8 @@ class _SigninScreenState extends State<SigninScreen> {
                           children: [
                             Text('New to this app?'),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
+                                await UserPreferences.setEmail(_email);
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -113,7 +125,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               },
                               child: Text(
                                 ' Sign Up',
-                                style: TextStyle(color: Colors.blue),
+                                style: _boldCyanTextStyle(context),
                               ),
                             )
                           ],
@@ -127,6 +139,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 child: CircularProgressIndicator(),
                               )
                             : CircleAvatar(
+                                backgroundColor: Theme.of(context).primaryColor,
                                 child: IconButton(
                                   icon: Icon(Icons.arrow_forward),
                                   onPressed: () async {
@@ -140,18 +153,15 @@ class _SigninScreenState extends State<SigninScreen> {
                                       setState(() {
                                         _isLoading = true;
                                       });
-                                      var url = Uri.parse(
-                                          'https://luxfortis.studio/app/login_user.php');
-                                      var response = await http.post(url,
-                                          body: {
-                                            'email': _email.trim(),
-                                            'password': _password.trim()
-                                          });
+                                      User user = User();
+                                      bool isSignedIn =
+                                          await user.signIn(_email, _password);
+
                                       setState(() {
                                         _isLoading = false;
                                       });
 
-                                      if (response.body == 'success') {
+                                      if (isSignedIn) {
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -160,9 +170,12 @@ class _SigninScreenState extends State<SigninScreen> {
                                         );
                                       } else {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'invalid email/password')));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content:
+                                                Text('invalid email/password'),
+                                          ),
+                                        );
                                       }
                                     }
                                   },
@@ -180,19 +193,9 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
-  String _validateEmail(String value) {
-    if (!value.contains('@')) {
-      return 'Please enter a valid email';
-    }
-
-    return null;
-  }
-
-  String _validatePassword(String value) {
-    if (value.length < 4) {
-      return 'Password must be more than 4 characters';
-    }
-    return null;
+  TextStyle _boldCyanTextStyle(BuildContext context) {
+    return TextStyle(
+        color: Theme.of(context).accentColor, fontWeight: FontWeight.bold);
   }
 
   void _forgotPassword() {

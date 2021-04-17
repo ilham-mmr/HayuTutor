@@ -1,3 +1,5 @@
+import 'package:flutapp/mixins/validator.dart';
+import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/signin_screen.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -10,7 +12,7 @@ class SignupScreen extends StatefulWidget {
   _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends State<SignupScreen> with Validator {
   final _formKey = GlobalKey<FormState>();
   String _fullName = '';
   String _email = '';
@@ -68,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             hintText: 'Full Name',
                             prefixIcon: Icon(Icons.account_box_sharp),
                           ),
-                          validator: _validateFullName,
+                          validator: validateFullName,
                           onSaved: (newValue) => _fullName = newValue,
                         ),
                         SizedBox(
@@ -87,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             hintText: 'youremail@example.com',
                             prefixIcon: Icon(Icons.email),
                           ),
-                          validator: _validateEmail,
+                          validator: validateEmail,
                           onSaved: (newValue) => _email = newValue,
                         ),
                         SizedBox(
@@ -106,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               fontSize: 20,
                             ),
                           ),
-                          validator: _validatePassword,
+                          validator: validatePassword,
                           onSaved: (newValue) => _password = newValue,
                         ),
                         SizedBox(
@@ -125,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               fontSize: 20,
                             ),
                           ),
-                          validator: _validatePassword,
+                          validator: validatePassword,
                           onSaved: (newValue) => _confirmPassword = newValue,
                         ),
                         SizedBox(
@@ -144,7 +146,9 @@ class _SignupScreenState extends State<SignupScreen> {
                               },
                               child: Text(
                                 ' Sign In',
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontWeight: FontWeight.bold),
                               ),
                             )
                           ],
@@ -156,6 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         _isLoading
                             ? CircularProgressIndicator()
                             : CircleAvatar(
+                                backgroundColor: Theme.of(context).primaryColor,
                                 child: IconButton(
                                   icon: Icon(Icons.arrow_forward),
                                   onPressed: () async {
@@ -169,19 +174,17 @@ class _SignupScreenState extends State<SignupScreen> {
                                         setState(() {
                                           _isLoading = true;
                                         });
-                                        var url = Uri.parse(
-                                            'https://luxfortis.studio/app/register_user.php');
-                                        var response =
-                                            await http.post(url, body: {
-                                          'full_name': _fullName.trim(),
-                                          'email': _email.trim(),
-                                          'password': _password.trim()
-                                        });
-                                        if (response.body == 'success') {
+                                        User user = User();
+                                        bool isSignedUp = await user.signUp(
+                                            _fullName, _email, _password);
+                                        if (isSignedUp) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Registered Successfully. Check your email to verify')));
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Registered Successfully. Check your email to verify'),
+                                            ),
+                                          );
                                           setState(() {
                                             _isLoading = false;
                                           });
@@ -224,27 +227,5 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-  }
-
-  String _validateEmail(String value) {
-    if (!value.contains('@')) {
-      return 'Please enter a valid email';
-    }
-
-    return null;
-  }
-
-  String _validatePassword(String value) {
-    if (value.length < 4) {
-      return 'Password must be more than 4 characters';
-    }
-    return null;
-  }
-
-  String _validateFullName(String value) {
-    if (value.isEmpty || value == '') {
-      return 'Full Name must not be empty';
-    }
-    return null;
   }
 }
