@@ -33,6 +33,10 @@ class MyApp extends StatelessWidget {
             // is not restarted.
             primaryColor: Color(0xFF1D4E56),
             accentColor: Colors.cyan[800],
+            textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Color(0xFF1D4E56),
+                selectionHandleColor: Color(0xFF1D4E56),
+                selectionColor: Colors.cyan[800]),
             backgroundColor: Color(0xFF1D4E56),
             buttonTheme: ButtonThemeData(
               buttonColor: Color(0xFF9AD3C6),

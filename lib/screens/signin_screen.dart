@@ -221,7 +221,10 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
             )),
         actions: [
           TextButton(
-            child: Text("Submit"),
+            child: Text(
+              "Submit",
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             onPressed: () {
               if (_forgotFieldController.text.toString().contains('@')) {
                 Navigator.of(context).pop();
@@ -234,7 +237,10 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
             },
           ),
           TextButton(
-              child: Text("Cancel"),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               }),
