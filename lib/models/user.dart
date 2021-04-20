@@ -36,6 +36,22 @@ class User with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> forgotPassword(String email) async {
+    var url = Uri.parse('https://luxfortis.studio/app/reset_password.php');
+    var response = await http.post(url, body: {'email': email.trim()});
+
+    return jsonDecode(response.body);
+  }
+
+  static Future<bool> setPassword(
+      String email, String otp, String password) async {
+    var url = Uri.parse('https://luxfortis.studio/app/set_password.php');
+    var response = await http
+        .post(url, body: {'email': email, 'otp': otp, 'password': password});
+
+    return response.body == 'success' ? true : false;
+  }
+
   String get fullname {
     return _fullName;
   }
