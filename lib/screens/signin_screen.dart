@@ -1,4 +1,6 @@
 import 'package:flutapp/models/user.dart';
+import 'package:flutapp/screens/forgot_validation_screen.dart';
+import 'package:flutapp/screens/newpassword_screen.dart';
 import 'package:flutapp/screens/signup_screen.dart';
 import 'package:flutapp/screens/welcome.dart';
 import 'package:flutapp/utils/user_preferences.dart';
@@ -202,9 +204,40 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
         color: Theme.of(context).accentColor, fontWeight: FontWeight.bold);
   }
 
+  void sendForgotEmail(String email) async {
+    if (!email.contains('@')) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('invalid email')));
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+
+    var response =
+        await Provider.of<User>(context, listen: false).forgotPassword(email);
+    if (response['status'] == 'success') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (content) => ForgotValidationScreen(
+              otp: response['data']['otp'], email: response['data']['email']),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Oops try to resend it again!')));
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   void _forgotPassword() {
     TextEditingController _forgotFieldController = TextEditingController();
+    String info = '';
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Enter your recovey email'),
@@ -216,7 +249,8 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                   controller: _forgotFieldController,
                   decoration: InputDecoration(
                       labelText: 'Email', icon: Icon(Icons.email)),
-                )
+                ),
+                Text('$info')
               ],
             )),
         actions: [
@@ -225,15 +259,10 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
               "Submit",
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
-            onPressed: () {
-              if (_forgotFieldController.text.toString().contains('@')) {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('sending to server')));
-              } else {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('invalid email')));
-              }
+            onPressed: () async {
+              String email = _forgotFieldController.text;
+              sendForgotEmail(email);
+              Navigator.of(context).pop();
             },
           ),
           TextButton(
