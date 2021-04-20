@@ -1,4 +1,5 @@
 import 'package:flutapp/models/user.dart';
+import 'package:flutapp/screens/newpassword_screen.dart';
 import 'package:flutapp/screens/splash_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<User>(
       create: (BuildContext context) => User(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'HayuTutor',
         theme: ThemeData(
             // This is the theme of your application.
             //
