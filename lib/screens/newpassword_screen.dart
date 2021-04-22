@@ -125,10 +125,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> with Validator {
                                         _isLoading = true;
                                       });
 
-                                      bool isSuccess = await User.setPassword(
-                                          widget.email,
-                                          widget.otp.toString(),
-                                          _password.trim());
+                                      bool isSuccess = await Provider.of<User>(
+                                              context,
+                                              listen: false)
+                                          .setPassword(
+                                              widget.email,
+                                              widget.otp.toString(),
+                                              _password.trim());
                                       if (isSuccess) {
                                         Navigator.push(
                                           context,
