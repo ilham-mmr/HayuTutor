@@ -3,14 +3,14 @@ import 'package:flutapp/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SplashScreen extends StatefulWidget {
+class LandingScreen extends StatefulWidget {
   static const routeName = '/splash-screen';
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _LandingScreenState createState() => _LandingScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
