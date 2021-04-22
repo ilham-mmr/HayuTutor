@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,14 +20,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
-        bottom: false,
         child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SvgPicture.asset("images/appreciation.svg"),
+            SvgPicture.asset(
+              "images/appreciation.svg",
+              height: height * 0.35,
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -37,11 +37,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 185,
+                    height: height * 0.28,
                     child: Image.asset('images/logo.png'),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: height * 0.05,
                   ),
                   Text(
                     'Find your best tutors here',
@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: height * 0.03,
                   ),
                   Text(
                     'The cure for boredom is curiosity. There is no cure for curiosity',
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: 30,
+                    height: height * 0.04,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          NoAnimationMaterialPageRoute(
                               builder: (content) => SigninScreen()));
                     },
                     child: Text('Explore Now'),

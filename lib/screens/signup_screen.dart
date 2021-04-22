@@ -1,3 +1,4 @@
+import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/signin_screen.dart';
@@ -138,7 +139,7 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
                               onTap: () {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(
+                                  NoAnimationMaterialPageRoute(
                                       builder: (context) => SigninScreen()),
                                 );
                               },
