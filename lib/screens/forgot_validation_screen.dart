@@ -1,15 +1,12 @@
+import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/newpassword_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class ForgotValidationScreen extends StatefulWidget {
-  final otp;
-  final email;
-
-  const ForgotValidationScreen({Key key, this.otp, this.email})
-      : super(key: key);
   @override
   _ForgotValidationScreenState createState() => _ForgotValidationScreenState();
 }
@@ -18,9 +15,15 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
   TextEditingController _controller = new TextEditingController();
 
   int attempt = 1;
-
+  String email = '';
+  String forgotOtp = '';
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context, listen: true);
+    email = user.forgotEmail;
+    forgotOtp = user.forgotOtp;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -43,7 +46,7 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
                   height: 20,
                 ),
                 Text(
-                  'Please type the code sent to ${widget.email}',
+                  'Please type the code sent to $email',
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -65,13 +68,13 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
                     ),
                     animationDuration: Duration(milliseconds: 300),
                     onCompleted: (value) {
-                      if (value == widget.otp.toString()) {
+                      if (value == forgotOtp) {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => NewPasswordScreen(
-                                    email: widget.email,
-                                    otp: widget.otp,
+                                    email: email,
+                                    otp: forgotOtp,
                                   )),
                         );
                       }
@@ -104,9 +107,18 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
     );
   }
 
-  void _resendCode() {
+  void _resendCode() async {
     setState(() {
       attempt = 1;
     });
+    var response =
+        await Provider.of<User>(context, listen: false).forgotPassword(email);
+    if (response) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Successfully resent the code to ${email}')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Oops there is an error')));
+    }
   }
 }
