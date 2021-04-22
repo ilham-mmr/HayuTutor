@@ -243,12 +243,11 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
 
     var response =
         await Provider.of<User>(context, listen: false).forgotPassword(email);
-    if (response['status'] == 'success') {
+    if (response) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (content) => ForgotValidationScreen(
-              otp: response['data']['otp'], email: response['data']['email']),
+          builder: (content) => ForgotValidationScreen(),
         ),
       );
     } else {

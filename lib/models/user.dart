@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class User with ChangeNotifier {
   String _fullName, _email, _registrationDate;
+  String _forgotOtp, _forgotEmail;
 
   Future<bool> signUp(String fullname, String email, String password) async {
     var url = Uri.parse('https://luxfortis.studio/app/register_user.php');
@@ -36,11 +37,19 @@ class User with ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> forgotPassword(String email) async {
+  Future<bool> forgotPassword(String email) async {
     var url = Uri.parse('https://luxfortis.studio/app/reset_password.php');
     var response = await http.post(url, body: {'email': email.trim()});
+    var data = jsonDecode(response.body);
+    if (data['status'] == 'success') {
+      _forgotOtp = data['data']['otp'].toString();
+      _forgotEmail = data['data']['email'];
 
-    return jsonDecode(response.body);
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> setPassword(String email, String otp, String password) async {
@@ -49,6 +58,14 @@ class User with ChangeNotifier {
         .post(url, body: {'email': email, 'otp': otp, 'password': password});
 
     return response.body == 'success' ? true : false;
+  }
+
+  String get forgotOtp {
+    return _forgotOtp;
+  }
+
+  String get forgotEmail {
+    return _forgotEmail;
   }
 
   String get fullname {
