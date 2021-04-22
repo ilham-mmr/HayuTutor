@@ -34,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
                   Container(
                     height: 200,
                     child: Image.asset(
-                      'images/logo.png',
+                      'assets/images/logo.png',
                     ),
                   ),
                   Container(

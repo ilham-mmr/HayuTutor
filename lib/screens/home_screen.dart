@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: SvgPicture.asset(
-                      "images/welcome.svg",
+                      "assets/images/welcome.svg",
                       height: 50,
                       width: 20,
                     ),
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               Center(
                 heightFactor: 3,
                 child: SvgPicture.asset(
-                  "images/welcome.svg",
+                  "assets/images/welcome.svg",
                   height: 200,
                 ),
               ),

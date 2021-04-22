@@ -55,7 +55,7 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                           Container(
                             height: height * 0.28,
                             child: Image.asset(
-                              'images/logo.png',
+                              'assets/images/logo.png',
                             ),
                           ),
                           Container(

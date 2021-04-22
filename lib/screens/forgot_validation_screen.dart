@@ -39,7 +39,7 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
                   height: 5,
                 ),
                 SvgPicture.asset(
-                  "images/mypassword.svg",
+                  "assets/images/mypassword.svg",
                   height: 200,
                 ),
                 SizedBox(

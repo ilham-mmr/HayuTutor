@@ -39,7 +39,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> with Validator {
                 children: [
                   Container(
                     height: 200,
-                    child: SvgPicture.asset("images/forgotpassword.svg"),
+                    child: SvgPicture.asset("assets/images/forgotpassword.svg"),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 18),

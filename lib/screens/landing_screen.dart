@@ -29,7 +29,7 @@ class _LandingScreenState extends State<LandingScreen> {
           alignment: Alignment.bottomCenter,
           children: [
             SvgPicture.asset(
-              "images/appreciation.svg",
+              "assets/images/appreciation.svg",
               height: height * 0.35,
             ),
             Padding(
@@ -40,7 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 children: [
                   Container(
                     height: height * 0.28,
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset('assets/images/logo.png'),
                   ),
                   SizedBox(
                     height: height * 0.05,

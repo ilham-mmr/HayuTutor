@@ -1,4 +1,5 @@
 import 'package:flutapp/models/user.dart';
+import 'package:flutapp/screens/landing_screen.dart';
 import 'package:flutapp/screens/splash_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
             // accentColorBrightness: ,
             textTheme: GoogleFonts.ralewayTextTheme()),
         home: SplashScreen(),
+        routes: {},
       ),
     );
   }
