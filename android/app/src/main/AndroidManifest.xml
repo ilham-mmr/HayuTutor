@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.stiw2044a202.flutapp">
+    package="com.stiw2044a202.hayututor">
    <application
         android:label="flutapp"
         android:icon="@mipmap/ic_launcher">
