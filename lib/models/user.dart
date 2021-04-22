@@ -43,8 +43,7 @@ class User with ChangeNotifier {
     return jsonDecode(response.body);
   }
 
-  static Future<bool> setPassword(
-      String email, String otp, String password) async {
+  Future<bool> setPassword(String email, String otp, String password) async {
     var url = Uri.parse('https://luxfortis.studio/app/set_password.php');
     var response = await http
         .post(url, body: {'email': email, 'otp': otp, 'password': password});
