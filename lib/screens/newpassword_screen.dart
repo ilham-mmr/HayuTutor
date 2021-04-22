@@ -133,12 +133,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> with Validator {
                                               widget.otp.toString(),
                                               _password.trim());
                                       if (isSuccess) {
-                                        Navigator.push(
+                                        Navigator.pop(
                                           context,
-                                          MaterialPageRoute(
-                                            builder: (content) =>
-                                                SigninScreen(),
-                                          ),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
