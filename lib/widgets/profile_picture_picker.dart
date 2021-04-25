@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:flutapp/models/image_cus_provider.dart';
+import 'package:flutapp/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePicturePicker extends StatefulWidget {
   @override
@@ -57,7 +60,6 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            //backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             content: Container(
@@ -129,8 +131,8 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
-      maxHeight: 1080,
-      maxWidth: 1920,
+      maxHeight: 800,
+      maxWidth: 800,
     );
 
     if (pickedFile != null) {
@@ -140,14 +142,15 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
     }
 
     _cropImage();
+    _setImage(_image);
   }
 
   _chooseCamera() async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(
       source: ImageSource.camera,
-      maxHeight: 1080,
-      maxWidth: 1920,
+      maxHeight: 800,
+      maxWidth: 800,
     );
 
     if (pickedFile != null) {
@@ -157,6 +160,7 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
     }
 
     _cropImage();
+    _setImage(_image);
   }
 
   _cropImage() async {
@@ -184,6 +188,12 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
 
   void _removePicture() {
     _image = null;
-    setState(() {});
+    setState(() {
+      _setImage(_image);
+    });
+  }
+
+  void _setImage(File image) {
+    Provider.of<ImageCusProvider>(context, listen: false).setImage(image);
   }
 }
