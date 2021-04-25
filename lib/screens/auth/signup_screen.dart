@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/mixins/validator.dart';
+import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/auth/signin_screen.dart';
 import 'package:flutapp/widgets/profile_picture_picker.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -20,10 +24,12 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
   String _confirmPassword = '';
 
   bool _isLoading = false;
+  GlobalKey _scaffold = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffold,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -159,64 +165,7 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
                         //check if it's loading or not
                         _isLoading
                             ? CircularProgressIndicator()
-                            : CircleAvatar(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () async {
-                                    if (_formKey.currentState.validate()) {
-                                      // If the form is valid, display a snackbar. In the real world,
-                                      // you'd often call a server or save the information in a database.
-                                      _formKey.currentState
-                                          .save(); // call onSaved
-
-                                      if (_password == _confirmPassword) {
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
-                                        User user = User();
-                                        bool isSignedUp = await user.signUp(
-                                            _fullName, _email, _password);
-                                        if (isSignedUp) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  'Registered Successfully. Check your email to verify'),
-                                            ),
-                                          );
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SigninScreen(),
-                                            ),
-                                          );
-                                        } else {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Registration failed: invalid input/email is already taken')));
-                                        }
-                                      } else {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Mismatch Passwords')));
-                                      }
-                                    }
-                                  },
-                                ),
-                              ),
+                            : _signUpButton(context),
                       ],
                     ),
                   )
@@ -226,6 +175,68 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
           ),
         ),
       ),
+    );
+  }
+
+  CircleAvatar _signUpButton(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: Theme.of(context).primaryColor,
+      child: Consumer<ImageCusProvider>(builder: (context, image, _) {
+        return IconButton(
+          icon: Icon(Icons.arrow_forward),
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
+              String base64Image = image.base64Image;
+
+              // If the form is valid, display a snackbar. In the real world,
+              // you'd often call a server or save the information in a database.
+              _formKey.currentState.save(); // call onSaved
+
+              if (_password == _confirmPassword) {
+                setState(() {
+                  _isLoading = true;
+                });
+                User user = User();
+                bool isSignedUp = await user.signUp(
+                    _fullName, _email, _password, base64Image);
+                print(isSignedUp);
+                if (isSignedUp) {
+                  print('yes success euy');
+                  ScaffoldMessenger.of(_scaffold.currentContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Registered Successfully. Check your email to verify'),
+                    ),
+                  );
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  Navigator.pushReplacement(
+                    _scaffold.currentContext,
+                    MaterialPageRoute(
+                      builder: (context) => SigninScreen(),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  ScaffoldMessenger.of(_scaffold.currentContext).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              'Registration failed: invalid input/email is already taken')));
+                }
+              } else {
+                setState(() {
+                  _isLoading = false;
+                });
+                ScaffoldMessenger.of(_scaffold.currentContext).showSnackBar(
+                    SnackBar(content: Text('Mismatch Passwords')));
+              }
+            }
+          },
+        );
+      }),
     );
   }
 }
