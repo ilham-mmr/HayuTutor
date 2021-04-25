@@ -1,7 +1,8 @@
 import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/signin_screen.dart';
+import 'package:flutapp/screens/auth/signin_screen.dart';
+import 'package:flutapp/widgets/profile_picture_picker.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,10 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
               child: Column(
                 children: [
                   Container(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                    ),
+                    // child: Image.asset(
+                    //   'assets/images/person.png',
+                    // ),
+                    child: ProfilePicturePicker(),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 18),

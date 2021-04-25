@@ -1,5 +1,5 @@
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/newpassword_screen.dart';
+import 'package:flutapp/screens/auth/newpassword_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';

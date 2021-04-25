@@ -1,6 +1,6 @@
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/signin_screen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
