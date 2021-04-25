@@ -1,3 +1,4 @@
+import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/landing_screen.dart';
 import 'package:flutapp/screens/splash_screen.dart';
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<User>(
-      create: (BuildContext context) => User(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (BuildContext context) => User(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => ImageCusProvider(),
+        ),
+      ],
       child: MaterialApp(
         title: 'HayuTutor',
         theme: ThemeData(
