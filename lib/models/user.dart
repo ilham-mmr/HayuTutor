@@ -1,18 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class User with ChangeNotifier {
-  String _fullName, _email, _registrationDate;
+  String _fullName, _email, _registrationDate, _picture;
   String _forgotOtp, _forgotEmail;
 
-  Future<bool> signUp(String fullname, String email, String password) async {
+  Future<bool> signUp(String fullname, String email, String password,
+      String encodedBase64string) async {
     var url = Uri.parse('https://luxfortis.studio/app/register_user.php');
     var response = await http.post(url, body: {
       'full_name': fullname.trim(),
       'email': email.trim(),
-      'password': password.trim()
+      'password': password.trim(),
+      'encoded_base64string': encodedBase64string
     });
     if (response.body == 'success') {
       return true;
@@ -30,6 +33,7 @@ class User with ChangeNotifier {
       _fullName = data['user']['full_name'];
       _email = data['user']['email'];
       _registrationDate = data['user']['registration_date'];
+      _picture = data['user']['picture'];
       notifyListeners();
       return true;
     } else {
@@ -78,5 +82,9 @@ class User with ChangeNotifier {
 
   String get registrationDate {
     return _registrationDate;
+  }
+
+  String get picture {
+    return _picture;
   }
 }
