@@ -1,6 +1,7 @@
 import 'package:flutapp/models/image_cus_provider.dart';
+import 'package:flutapp/models/subjects.dart';
+import 'package:flutapp/models/tutors.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/landing_screen.dart';
 import 'package:flutapp/screens/splash_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 
@@ -26,6 +27,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => ImageCusProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => SubjectProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => TutorProvider(),
         ),
       ],
       child: MaterialApp(
