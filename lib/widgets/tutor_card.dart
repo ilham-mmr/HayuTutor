@@ -1,6 +1,11 @@
+import 'package:flutapp/models/tutors.dart';
 import 'package:flutter/material.dart';
 
 class TutorCard extends StatelessWidget {
+  final Tutor tutor;
+
+  const TutorCard({Key key, this.tutor}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -11,23 +16,23 @@ class TutorCard extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Ilham Maman',
+                    '${tutor.fullName}',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'RM12/hour',
+                    '${tutor.price}RM/hour',
                     style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    'Maths',
+                    tutor.subject,
                     style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    'Banjar, west java',
+                    tutor.location,
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -42,8 +47,7 @@ class TutorCard extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80'),
+                      backgroundImage: NetworkImage(tutor.picture),
                     ),
                   ),
                   IconButton(
