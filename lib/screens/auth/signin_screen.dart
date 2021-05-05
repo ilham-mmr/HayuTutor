@@ -2,7 +2,7 @@ import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/auth/forgot_validation_screen.dart';
 import 'package:flutapp/screens/auth/signup_screen.dart';
-import 'package:flutapp/screens/auth/home_screen.dart';
+import 'package:flutapp/screens/home_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutter/cupertino.dart';

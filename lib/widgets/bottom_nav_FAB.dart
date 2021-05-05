@@ -1,4 +1,3 @@
-import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/screens/explore_screen.dart';
 import 'package:flutapp/screens/sessions_screen.dart';
 import 'package:flutter/material.dart';

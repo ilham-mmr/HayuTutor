@@ -1,3 +1,5 @@
+import 'package:flutapp/models/subjects.dart';
+import 'package:flutapp/models/tutors.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/search_tutor_screen.dart';
 import 'package:flutapp/widgets/app_drawer.dart';
@@ -5,7 +7,6 @@ import 'package:flutapp/widgets/bottom_nav_FAB.dart';
 import 'package:flutapp/widgets/subject_card.dart';
 import 'package:flutapp/widgets/tutor_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 expandedHeight: 185,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.white70,
                 flexibleSpace: FlexibleSpaceBar(
                   background: _buildNameAndProfileContainer(context),
                 ),
@@ -69,56 +70,67 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Container(
                             height: 120,
-                            child: ListView(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                SubjectCard(
-                                  imagePath: 'assets/images/biology.png',
-                                ),
-                                SubjectCard(
-                                  imagePath: 'assets/images/english.png',
-                                ),
-                                SubjectCard(
-                                  imagePath: 'assets/images/history.png',
-                                ),
-                                SubjectCard(
-                                  imagePath: 'assets/images/maths.png',
-                                ),
-                                SubjectCard(
-                                  imagePath: 'assets/images/physics.png',
-                                ),
-                              ],
+                            child: Consumer<SubjectProvider>(
+                              builder: (context, subject, _) => FutureBuilder(
+                                  future: subject.getSubjects(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      var data = snapshot.data;
+                                      return ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: data
+                                            .map<Widget>(
+                                                (subjectItem) => SubjectCard(
+                                                      subject: subjectItem,
+                                                    ))
+                                            .toList(),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }),
                             ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            'Tutors',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Tutors',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'See All',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
-                          TutorCard(),
-                          TutorCard(),
-                          TutorCard(),
-                          TutorCard(),
-                          TutorCard(),
-                          TutorCard(),
-                          TutorCard(),
-
-                          // Container(
-                          //   height: 350,
-                          //   child: ListView(
-                          //     children: [
-                          //       TutorCard(),
-                          //       TutorCard(),
-                          //       TutorCard(),
-                          //       TutorCard(),
-                          //       TutorCard()
-                          //     ],
-                          //   ),
-                          // ),
+                          Consumer<TutorProvider>(
+                            builder: (context, tutor, _) => FutureBuilder(
+                              future: tutor.getCardTutors(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  var data = snapshot.data;
+                                  return Column(
+                                    children: data
+                                        .map<Widget>((tutorItem) => TutorCard(
+                                              tutor: tutorItem,
+                                            ))
+                                        .toList(),
+                                  );
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),

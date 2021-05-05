@@ -115,7 +115,7 @@ class _ForgotValidationScreenState extends State<ForgotValidationScreen> {
         await Provider.of<User>(context, listen: false).forgotPassword(email);
     if (response) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Successfully resent the code to ${email}')));
+          SnackBar(content: Text('Successfully resent the code to $email')));
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Oops there is an error')));

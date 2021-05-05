@@ -1,4 +1,3 @@
-import 'package:flutapp/widgets/bottom_nav_FAB.dart';
 import 'package:flutter/material.dart';
 
 class SearchTutorScreen extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutapp/models/image_cus_provider.dart';
-import 'package:flutapp/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -181,8 +180,10 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
         ));
 
     if (croppedFile != null) {
-      _image = croppedFile;
-      setState(() {});
+      setState(() {
+        _image = croppedFile;
+        _setImage(_image);
+      });
     }
   }
 

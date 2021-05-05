@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/mixins/validator.dart';
