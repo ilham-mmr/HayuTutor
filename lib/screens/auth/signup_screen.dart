@@ -1,4 +1,3 @@
-
 import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/mixins/validator.dart';
 import 'package:flutapp/models/image_cus_provider.dart';
@@ -33,141 +32,150 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
         child: SingleChildScrollView(
           child: Container(
             child: Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(18),
+              margin: EdgeInsets.all(6),
               child: Column(
                 children: [
-                  Container(
-                    // child: Image.asset(
-                    //   'assets/images/person.png',
-                    // ),
-                    child: ProfilePicturePicker(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 18),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Sign Up',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Form(
-                    key: _formKey,
+                    margin: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(18),
                     child: Column(
                       children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelText: 'Full Name',
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                            ),
-                            hintText: 'Full Name',
-                            prefixIcon: Icon(Icons.account_box_sharp),
-                          ),
-                          validator: validateFullName,
-                          onSaved: (newValue) => _fullName = newValue,
+                        Container(
+                          child: ProfilePicturePicker(),
                         ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            labelText: 'Email Address',
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                            ),
-                            hintText: 'youremail@example.com',
-                            prefixIcon: Icon(Icons.email),
-                          ),
-                          validator: validateEmail,
-                          onSaved: (newValue) => _email = newValue,
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            prefixIcon: Icon(Icons.lock),
-                            labelText: 'Password',
-                            hintText: 'Password',
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          validator: validatePassword,
-                          onSaved: (newValue) => _password = newValue,
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            prefixIcon: Icon(Icons.lock),
-                            labelText: 'Confirm Password',
-                            hintText: 'Confirm Password',
-                            labelStyle: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          validator: validatePassword,
-                          onSaved: (newValue) => _confirmPassword = newValue,
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Row(
-                          children: [
-                            Text('Already have an account?'),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  NoAnimationMaterialPageRoute(
-                                      builder: (context) => SigninScreen()),
-                                );
-                              },
-                              child: Text(
-                                ' Sign In',
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 18),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Sign Up',
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 30, fontWeight: FontWeight.bold),
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          height: 18,
+                          height: 12,
                         ),
-                        //check if it's loading or not
-                        _isLoading
-                            ? CircularProgressIndicator()
-                            : _signUpButton(context),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  labelText: 'Full Name',
+                                  labelStyle: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                  hintText: 'Full Name',
+                                  prefixIcon: Icon(Icons.account_box_sharp),
+                                ),
+                                validator: validateFullName,
+                                onSaved: (newValue) => _fullName = newValue,
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  labelText: 'Email Address',
+                                  labelStyle: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                  hintText: 'youremail@example.com',
+                                  prefixIcon: Icon(Icons.email),
+                                ),
+                                validator: validateEmail,
+                                onSaved: (newValue) => _email = newValue,
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              TextFormField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  prefixIcon: Icon(Icons.lock),
+                                  labelText: 'Password',
+                                  hintText: 'Password',
+                                  labelStyle: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                validator: validatePassword,
+                                onSaved: (newValue) => _password = newValue,
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              TextFormField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  prefixIcon: Icon(Icons.lock),
+                                  labelText: 'Confirm Password',
+                                  hintText: 'Confirm Password',
+                                  labelStyle: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                validator: validatePassword,
+                                onSaved: (newValue) =>
+                                    _confirmPassword = newValue,
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                children: [
+                                  Text('Already have an account?'),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      ' Sign In',
+                                      style: TextStyle(
+                                          color: Theme.of(context).accentColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              //check if it's loading or not
+                              _isLoading
+                                  ? CircularProgressIndicator()
+                                  : _signUpButton(context),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -210,12 +218,7 @@ class _SignupScreenState extends State<SignupScreen> with Validator {
                   setState(() {
                     _isLoading = false;
                   });
-                  Navigator.pushReplacement(
-                    _scaffold.currentContext,
-                    MaterialPageRoute(
-                      builder: (context) => SigninScreen(),
-                    ),
-                  );
+                  Navigator.of(context).pop();
                 } else {
                   setState(() {
                     _isLoading = false;

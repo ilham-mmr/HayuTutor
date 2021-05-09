@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LandingScreen extends StatefulWidget {
-  static const routeName = '/splash-screen';
-
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -15,10 +13,6 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //     Duration(seconds: 3),
-    //     () => Navigator.pushReplacement(
-    //         context, MaterialPageRoute(builder: (content) => SigninScreen())));
   }
 
   @override
@@ -68,10 +62,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       onPrimary: Colors.white, // foreground
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          NoAnimationMaterialPageRoute(
-                              builder: (content) => SigninScreen()));
+                      Navigator.of(context).pushNamed('/signin-screen');
                     },
                     child: Text('Explore Now'),
                   ),

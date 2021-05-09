@@ -1,3 +1,5 @@
+import 'package:flutapp/screens/auth/signin_screen.dart';
+import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -27,7 +29,17 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             title: Text('Log Out'),
             trailing: Icon(Icons.arrow_forward),
-            onTap: () {},
+            onTap: () {
+              UserPreferences.removeEmail();
+              UserPreferences.removeFullName();
+              UserPreferences.removePicture();
+              UserPreferences.removeId();
+
+              UserPreferences.removeRegistrationDate();
+
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/landing-screen', (route) => false);
+            },
           ),
         ],
       ),

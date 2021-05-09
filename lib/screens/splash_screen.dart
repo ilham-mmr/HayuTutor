@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutapp/screens/home_screen.dart';
 import 'package:flutapp/screens/landing_screen.dart';
+import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -8,13 +10,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String _userEmail;
   @override
   void initState() {
     super.initState();
+    _userEmail = UserPreferences.getEmail();
     Timer(
         Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (content) => LandingScreen())));
+        () => Navigator.of(context).pushReplacementNamed(
+            _userEmail != null ? '/home-screen' : '/landing-screen'));
   }
 
   @override

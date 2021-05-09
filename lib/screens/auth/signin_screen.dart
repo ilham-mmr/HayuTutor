@@ -19,10 +19,10 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
   String _email = '';
   String _password = '';
   bool _isLoading = false;
+  bool _rememberMe = false;
 
   @override
   void initState() {
-    _email = UserPreferences.getEmail() ?? '';
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(6),
-            child: Stack(
+            child: Column(
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
@@ -47,7 +47,7 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                 ),
                 Container(
                   margin: EdgeInsets.all(20),
-                  padding: EdgeInsets.all(18),
+                  padding: EdgeInsets.symmetric(horizontal: 18),
                   child: Column(
                     children: [
                       Column(
@@ -128,6 +128,26 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                                   onSaved: (newValue) => _password = newValue,
                                 ),
                                 SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: Checkbox(
+                                          value: _rememberMe,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _rememberMe = value;
+                                            });
+                                          }),
+                                    ),
+                                    Text('Remember Me'),
+                                  ],
+                                ),
+                                SizedBox(
                                   height: 18,
                                 ),
                                 Row(
@@ -135,13 +155,8 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                                     Text('New to this app?'),
                                     GestureDetector(
                                       onTap: () async {
-                                        await UserPreferences.setEmail(_email);
-                                        Navigator.pushReplacement(
-                                          context,
-                                          NoAnimationMaterialPageRoute(
-                                              builder: (context) =>
-                                                  SignupScreen()),
-                                        );
+                                        Navigator.of(context)
+                                            .pushNamed('/signup-screen');
                                       },
                                       child: Text(
                                         ' Sign Up',
@@ -162,53 +177,8 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
                                         backgroundColor:
                                             Theme.of(context).primaryColor,
                                         child: IconButton(
-                                          icon: Icon(Icons.arrow_forward),
-                                          onPressed: () async {
-                                            // Validate returns true if the form is valid, or false otherwise.
-                                            if (_formKey.currentState
-                                                .validate()) {
-                                              // If the form is valid, display a snackbar. In the real world,
-                                              // you'd often call a server or save the information in a database.
-                                              _formKey.currentState
-                                                  .save(); // call onSaved
-
-                                              setState(() {
-                                                _isLoading = true;
-                                              });
-                                              bool isSignedIn =
-                                                  await Provider.of<User>(
-                                                          context,
-                                                          listen: false)
-                                                      .signIn(
-                                                          _email, _password);
-
-                                              // bool isSignedIn =
-                                              //     await user.signIn(_email, _password);
-
-                                              setState(() {
-                                                _isLoading = false;
-                                              });
-
-                                              if (isSignedIn) {
-                                                Navigator.pushReplacement(
-                                                  context,
-                                                  NoAnimationMaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeScreen(),
-                                                  ),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        'invalid email/password'),
-                                                  ),
-                                                );
-                                              }
-                                            }
-                                          },
-                                        ),
+                                            icon: Icon(Icons.arrow_forward),
+                                            onPressed: _login),
                                       ),
                               ],
                             ),
@@ -302,5 +272,42 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
         ],
       ),
     );
+  }
+
+  void _login() async {
+    // Validate returns true if the form is valid, or false otherwise.
+    if (_formKey.currentState.validate()) {
+      // If the form is valid, display a snackbar. In the real world,
+      // you'd often call a server or save the information in a database.
+      _formKey.currentState.save(); // call onSave
+      setState(() {
+        _isLoading = true;
+      });
+      User user = Provider.of<User>(context, listen: false);
+      var isSignedIn = await user.signIn(_email, _password);
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (isSignedIn) {
+        // set preferences if logged in
+        if (_rememberMe) {
+          await UserPreferences.setEmail(_email);
+          await UserPreferences.setId(user.id);
+          await UserPreferences.setFullName(user.fullName);
+          await UserPreferences.setPicture(user.picture);
+          await UserPreferences.setRegistrationDate(user.registrationDate);
+        }
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/home-screen', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('invalid email/password'),
+          ),
+        );
+      }
+    }
   }
 }
