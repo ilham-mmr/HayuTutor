@@ -2,6 +2,7 @@ import 'package:flutapp/models/subjects.dart';
 import 'package:flutapp/models/tutors.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/search_tutor_screen.dart';
+import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutapp/widgets/app_drawer.dart';
 import 'package:flutapp/widgets/bottom_nav_FAB.dart';
 import 'package:flutapp/widgets/subject_card.dart';
@@ -9,9 +10,32 @@ import 'package:flutapp/widgets/tutor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String email;
+  String fullName;
+  String picture;
+  @override
+  void initState() {
+    super.initState();
+    email = UserPreferences.getEmail();
+    fullName = UserPreferences.getFullName();
+    picture = UserPreferences.getPicture();
+  }
+
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context, listen: false);
+    if (user.email == null && user.fullName == null) {
+      user.email = email;
+      user.fullName = fullName;
+      user.picture = picture;
+    }
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -176,7 +200,7 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            "${user.fullname.split(' ')[0]}",
+                            "${user.fullName.split(' ')[0]}",
                             style: TextStyle(
                                 fontSize: 30,
                                 color: Colors.white70,
@@ -197,8 +221,7 @@ class HomeScreen extends StatelessWidget {
           child: Consumer<User>(
             builder: (BuildContext context, user, _) => CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(
-                  'https://luxfortis.studio/app/images/profile_pictures/${user.picture}'),
+              backgroundImage: NetworkImage(user.picture),
             ),
           ),
         ),
