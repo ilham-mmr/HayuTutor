@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class User with ChangeNotifier {
-  String _fullName, _email, _registrationDate, _picture;
+  int id;
+  String fullName, email, registrationDate, picture;
   String _forgotOtp, _forgotEmail;
 
   Future<bool> signUp(String fullname, String email, String password,
@@ -28,10 +29,11 @@ class User with ChangeNotifier {
         .post(url, body: {'email': email.trim(), 'password': password.trim()});
     Map<String, dynamic> data = jsonDecode(response.body);
     if (data['status'] == 'success') {
-      _fullName = data['user']['full_name'];
-      _email = data['user']['email'];
-      _registrationDate = data['user']['registration_date'];
-      _picture = data['user']['picture'];
+      id = data['user']['id'];
+      fullName = data['user']['full_name'];
+      email = data['user']['email'];
+      registrationDate = data['user']['registration_date'];
+      picture = data['user']['picture'];
       notifyListeners();
       return true;
     } else {
@@ -62,6 +64,8 @@ class User with ChangeNotifier {
     return response.body == 'success' ? true : false;
   }
 
+  
+
   String get forgotOtp {
     return _forgotOtp;
   }
@@ -70,19 +74,5 @@ class User with ChangeNotifier {
     return _forgotEmail;
   }
 
-  String get fullname {
-    return _fullName;
-  }
 
-  String get email {
-    return _email;
-  }
-
-  String get registrationDate {
-    return _registrationDate;
-  }
-
-  String get picture {
-    return _picture;
-  }
 }
