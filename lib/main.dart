@@ -1,3 +1,4 @@
+import 'package:flutapp/helpers/route_generator.dart';
 import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/subjects.dart';
 import 'package:flutapp/models/tutors.dart';
@@ -51,8 +52,8 @@ class MyApp extends StatelessWidget {
 
             // accentColorBrightness: ,
             textTheme: GoogleFonts.ralewayTextTheme()),
-        home: SplashScreen(),
-        routes: {},
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
