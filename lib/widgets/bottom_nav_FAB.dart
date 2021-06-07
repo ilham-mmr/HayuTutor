@@ -1,4 +1,4 @@
-import 'package:flutapp/screens/explore_screen.dart';
+import 'package:flutapp/screens/add_session_screen.dart';
 import 'package:flutapp/screens/sessions_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,13 +23,13 @@ class BottomNavFAB extends StatelessWidget {
             ),
             Expanded(
               child: _customIconButton(
-                  iconData: Icons.explore,
-                  label: 'Explore',
+                  iconData: Icons.add_box_rounded,
+                  label: 'Add',
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (content) => ExploreScreen()));
+                            builder: (content) => AddSessionScreen()));
                   }),
             ),
             Expanded(
