@@ -155,27 +155,29 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context, tutor, _) => FutureBuilder(
                               future: tutor.getCardTutors(),
                               builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  var data = snapshot.data;
-                                  print('hihi');
-                                  data.map((item) => print(item.fullName));
-                                  return Column(
-                                    children: data
-                                        .map<Widget>((tutorItem) => TutorCard(
-                                              tutor: tutorItem,
-                                            ))
-                                        .toList(),
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
                                   );
                                 }
-                                return Center(
-                                  child: CircularProgressIndicator(),
+
+                                var data = snapshot.data;
+                                print('hihi');
+                                data.map((item) => print(item.fullName));
+                                return Column(
+                                  children: data
+                                      .map<Widget>((tutorItem) => TutorCard(
+                                            tutor: tutorItem,
+                                          ))
+                                      .toList(),
                                 );
                               },
                             ),
                           ),
                           SizedBox(
-                            height: 80,
-                          )
+                            height: 100,
+                          ),
                         ],
                       ),
                     ),
