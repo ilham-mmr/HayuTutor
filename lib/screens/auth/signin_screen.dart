@@ -1,10 +1,7 @@
-import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/screens/auth/forgot_validation_screen.dart';
-import 'package:flutapp/screens/auth/signup_screen.dart';
-import 'package:flutapp/screens/home_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
-import 'package:flutapp/mixins/validator.dart';
+import 'package:flutapp/mixins/user_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +11,7 @@ class SigninScreen extends StatefulWidget {
   _SigninScreenState createState() => _SigninScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> with Validator {
+class _SigninScreenState extends State<SigninScreen> with UserValidator {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
@@ -292,9 +289,10 @@ class _SigninScreenState extends State<SigninScreen> with Validator {
 
       if (isSignedIn) {
         // set preferences if logged in
+        await UserPreferences.setId(user.id);
+
         if (_rememberMe) {
           await UserPreferences.setEmail(_email);
-          await UserPreferences.setId(user.id);
           await UserPreferences.setFullName(user.fullName);
           await UserPreferences.setPicture(user.picture);
           await UserPreferences.setRegistrationDate(user.registrationDate);

@@ -1,4 +1,4 @@
-import 'package:flutapp/mixins/validator.dart';
+import 'package:flutapp/mixins/user_validator.dart';
 import 'package:flutapp/models/user.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -15,7 +15,8 @@ class NewPasswordScreen extends StatefulWidget {
   _NewPasswordScreenState createState() => _NewPasswordScreenState();
 }
 
-class _NewPasswordScreenState extends State<NewPasswordScreen> with Validator {
+class _NewPasswordScreenState extends State<NewPasswordScreen>
+    with UserValidator {
   final _formKey = GlobalKey<FormState>();
   String _password = '';
   String _confirmPassword = '';

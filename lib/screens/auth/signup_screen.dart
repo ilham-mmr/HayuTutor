@@ -1,8 +1,6 @@
-import 'package:flutapp/helpers/noanimation_page_route.dart';
-import 'package:flutapp/mixins/validator.dart';
+import 'package:flutapp/mixins/user_validator.dart';
 import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/auth/signin_screen.dart';
 import 'package:flutapp/widgets/profile_picture_picker.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -14,7 +12,7 @@ class SignupScreen extends StatefulWidget {
   _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> with Validator {
+class _SignupScreenState extends State<SignupScreen> with UserValidator {
   final _formKey = GlobalKey<FormState>();
   String _fullName = '';
   String _email = '';

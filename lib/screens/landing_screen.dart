@@ -1,6 +1,3 @@
-import 'package:flutapp/helpers/noanimation_page_route.dart';
-import 'package:flutapp/screens/auth/signin_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

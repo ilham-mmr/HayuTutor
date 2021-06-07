@@ -1,9 +1,9 @@
 import 'package:flutapp/helpers/route_generator.dart';
 import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/subjects.dart';
+import 'package:flutapp/models/tutor_session.dart';
 import 'package:flutapp/models/tutors.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/splash_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 
 import 'package:flutter/material.dart';
@@ -34,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => TutorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => TutorSessionProvider(),
         ),
       ],
       child: MaterialApp(
