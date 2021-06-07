@@ -122,10 +122,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Tutors',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Tutors',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.refresh),
+                                      onPressed: () {
+                                        setState(() {});
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text('Refreshed'),
+                                          ),
+                                        );
+                                      })
+                                ],
                               ),
                               Text(
                                 'See All',
@@ -141,6 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   var data = snapshot.data;
+                                  print('hihi');
+                                  data.map((item) => print(item.fullName));
                                   return Column(
                                     children: data
                                         .map<Widget>((tutorItem) => TutorCard(
@@ -154,6 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                             ),
+                          ),
+                          SizedBox(
+                            height: 80,
                           )
                         ],
                       ),
