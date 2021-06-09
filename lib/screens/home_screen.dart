@@ -134,12 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       icon: Icon(Icons.refresh),
                                       onPressed: () {
                                         setState(() {});
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text('Refreshed'),
-                                          ),
-                                        );
                                       })
                                 ],
                               ),
