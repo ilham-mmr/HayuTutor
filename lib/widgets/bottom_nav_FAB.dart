@@ -1,5 +1,5 @@
-import 'package:flutapp/screens/add_session_screen.dart';
-import 'package:flutapp/screens/sessions_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/add_session_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/sessions_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavFAB extends StatelessWidget {
