@@ -18,40 +18,88 @@ class SessionCard extends StatelessWidget {
               children: [
                 Text(
                   '${tutorSession.subject}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                Text(
-                  '${tutorSession.duration}',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.timelapse),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      '${tutorSession.duration} mins',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  '${tutorSession.location}',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_city),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      '${tutorSession.location}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'on ${tutorSession.date}',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.date_range),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      'on ${tutorSession.date}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'at ${tutorSession.time}',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.timer),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      'at ${tutorSession.time}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'RM${tutorSession.price}',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'RM',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      '${tutorSession.price}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -71,7 +119,10 @@ class SessionCard extends StatelessWidget {
                 SizedBox(
                   height: 8,
                 ),
-                Text('${tutorSession.fullName}'),
+                Text(
+                  '${tutorSession.fullName}',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
