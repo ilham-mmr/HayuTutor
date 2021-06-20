@@ -23,7 +23,9 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             title: Text('Profile'),
             trailing: Icon(Icons.arrow_forward),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/userprofile-screen');
+            },
           ),
           ListTile(
             title: Text('Log Out'),
@@ -33,8 +35,8 @@ class AppDrawer extends StatelessWidget {
               UserPreferences.removeFullName();
               UserPreferences.removePicture();
               UserPreferences.removeId();
-
               UserPreferences.removeRegistrationDate();
+              UserPreferences.removeRememberMe();
 
               Navigator.pushNamedAndRemoveUntil(
                   context, '/landing-screen', (route) => false);
