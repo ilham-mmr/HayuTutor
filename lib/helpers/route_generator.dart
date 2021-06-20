@@ -4,6 +4,7 @@ import 'package:flutapp/screens/auth/signup_screen.dart';
 import 'package:flutapp/screens/home_screen.dart';
 import 'package:flutapp/screens/landing_screen.dart';
 import 'package:flutapp/screens/splash_screen.dart';
+import 'package:flutapp/screens/user/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -22,6 +23,9 @@ class RouteGenerator {
         return NoAnimationMaterialPageRoute(builder: (_) => SignupScreen());
       case '/signin-screen':
         return NoAnimationMaterialPageRoute(builder: (_) => SigninScreen());
+      case '/userprofile-screen':
+        return NoAnimationMaterialPageRoute(
+            builder: (_) => UserProfileScreen());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
