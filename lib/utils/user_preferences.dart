@@ -7,13 +7,13 @@ class UserPreferences {
   static const _keyEmail = 'email';
   static const _keyFullName = 'fullname';
   static const _keyPicture = 'picture';
-  static const _registrationDate = 'registrationDate';
+  static const _keyRegistrationDate = 'registrationDate';
+  static const _keyRememberMe = 'rememberMe';
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
 // email
-  static Future setId(int id) async =>
-      await _preferences.setInt(_keyId, id);
+  static Future setId(int id) async => await _preferences.setInt(_keyId, id);
   static int getId() => _preferences.getInt(_keyId);
   static Future removeId() => _preferences.remove(_keyId);
   // email
@@ -33,9 +33,15 @@ class UserPreferences {
   static Future removePicture() => _preferences.remove(_keyPicture);
   // regisDate
   static Future setRegistrationDate(String registrationDate) async =>
-      await _preferences.setString(_registrationDate, registrationDate);
-  static String getRegistrationDate() => _preferences.getString(_registrationDate);
-  static Future removeRegistrationDate() => _preferences.remove(_registrationDate);
+      await _preferences.setString(_keyRegistrationDate, registrationDate);
+  static String getRegistrationDate() =>
+      _preferences.getString(_keyRegistrationDate);
+  static Future removeRegistrationDate() =>
+      _preferences.remove(_keyRegistrationDate);
 
-
+  // remember me
+  static Future setRememberMe(bool rememberMe) async =>
+      await _preferences.setBool(_keyRememberMe, rememberMe);
+  static bool getRememberMe() => _preferences.getBool(_keyRememberMe);
+  static Future removeRememberMe() => _preferences.remove(_keyRegistrationDate);
 }
