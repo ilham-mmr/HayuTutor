@@ -83,6 +83,8 @@ class TutorSessionProvider with ChangeNotifier {
       notifyListeners();
       return true;
     }
+    notifyListeners();
+
     tutorSessionList = [];
 
     return false;
