@@ -8,15 +8,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String _userEmail;
+  bool _rememberMe = false;
   @override
   void initState() {
     super.initState();
-    _userEmail = UserPreferences.getEmail();
+    _rememberMe = UserPreferences.getRememberMe() ?? false;
     Timer(
         Duration(seconds: 2),
         () => Navigator.of(context).pushReplacementNamed(
-            _userEmail != null ? '/home-screen' : '/landing-screen'));
+            _rememberMe ? '/home-screen' : '/landing-screen'));
   }
 
   @override
