@@ -28,6 +28,7 @@ class _AddSessionScreenState extends State<AddSessionScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).accentColor,
+        title: Text('Add Tutoring Session'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,14 +38,6 @@ class _AddSessionScreenState extends State<AddSessionScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Add Tutor Session',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -152,6 +145,17 @@ class _AddSessionScreenState extends State<AddSessionScreen>
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2025),
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: ThemeData.light().copyWith(
+                                        colorScheme:
+                                            ColorScheme.light().copyWith(
+                                          primary: Colors.cyan[800],
+                                        ),
+                                      ),
+                                      child: child,
+                                    );
+                                  },
                                 );
                                 setState(() {
                                   date = picked.toLocal().toString();
@@ -177,8 +181,19 @@ class _AddSessionScreenState extends State<AddSessionScreen>
                                 color: Theme.of(context).primaryColor),
                             onPressed: () async {
                               final TimeOfDay picked = await showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now());
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: ThemeData.light().copyWith(
+                                      colorScheme: ColorScheme.light().copyWith(
+                                        primary: Colors.cyan[800],
+                                      ),
+                                    ),
+                                    child: child,
+                                  );
+                                },
+                              );
                               setState(() {
                                 time =
                                     '${picked.hour.toString()}:${picked.minute.toString()}';
