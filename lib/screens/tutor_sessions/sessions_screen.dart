@@ -16,6 +16,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Search Tutoring Session'),
         backgroundColor: Theme.of(context).accentColor,
         // leading: Container(),
       ),
@@ -34,7 +35,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                   _querySearch(context, value);
                 },
                 decoration: InputDecoration(
-                  hintText: 'Search for tutoring session e.g Biology',
+                  hintText: 'e.g Biology / alex',
                   suffixIcon: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
