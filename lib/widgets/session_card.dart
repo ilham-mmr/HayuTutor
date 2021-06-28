@@ -1,9 +1,12 @@
 import 'package:flutapp/models/tutor_session.dart';
+import 'package:flutapp/screens/detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class SessionCard extends StatelessWidget {
   final TutorSession tutorSession;
-  const SessionCard({key, this.tutorSession}) : super(key: key);
+  final bool clickAblePicture;
+  const SessionCard({key, this.tutorSession, this.clickAblePicture = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +112,25 @@ class SessionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(tutorSession.picture),
+                GestureDetector(
+                  onTap: clickAblePicture
+                      ? () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (content) => DetailScreen(
+                                        fullName: tutorSession.fullName,
+                                        id: tutorSession.tutorId,
+                                        picture: tutorSession.picture,
+                                      )));
+                        }
+                      : () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(tutorSession.picture),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -130,7 +147,10 @@ class SessionCard extends StatelessWidget {
                     IconButton(
                       color: Theme.of(context).accentColor,
                       icon: Icon(Icons.book),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/payment-screen',
+                            arguments: tutorSession);
+                      },
                     ),
                   ],
                 ),

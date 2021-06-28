@@ -61,6 +61,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                               itemBuilder: (context, index) {
                                 return SessionCard(
                                   tutorSession: sessionList[index],
+                                  clickAblePicture: true,
                                 );
                               },
                             )

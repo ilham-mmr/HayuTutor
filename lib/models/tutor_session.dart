@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +16,7 @@ class TutorSession {
   String picture;
   TutorSession(
       {this.sessionId,
+      this.fullName,
       this.subject,
       this.location,
       this.price,
@@ -88,6 +88,40 @@ class TutorSessionProvider with ChangeNotifier {
     tutorSessionList = [];
 
     return false;
+  }
+
+  getSessionById(String id) async {
+    var url = Uri.parse(
+        'https://luxfortis.studio/app/tutors/get_session_by_id.php?id=$id');
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && data['status'] == 'success') {
+      data = data['data']['sessions'];
+      var sessions = data
+          .map<TutorSession>((item) => TutorSession.fromJson(item))
+          .toList();
+      return sessions;
+    }
+    return [];
+  }
+
+  List tutorSessionSubjectList = [];
+  getSessionsBySubject(String keyword) async {
+    var url = Uri.parse(
+        'https://luxfortis.studio/app/tutors/load_sessions.php?keyword=$keyword');
+    var response = await http.get(url);
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && data['status'] == 'success') {
+      data = data['data']['sessions'];
+      tutorSessionSubjectList = data
+          .map<TutorSession>((item) => TutorSession.fromJson(item))
+          .toList();
+      return tutorSessionSubjectList;
+    }
+
+    return [];
   }
 
   loadSessions() {}

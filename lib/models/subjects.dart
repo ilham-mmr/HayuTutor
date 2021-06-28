@@ -23,10 +23,8 @@ class SubjectProvider with ChangeNotifier {
       var data = jsonDecode(response.body);
       data = data['subjects'];
 
-      List<Subject> subjects = data
-          .map<Subject>(
-              (item) => Subject.fromJson(item))
-          .toList();
+      List<Subject> subjects =
+          data.map<Subject>((item) => Subject.fromJson(item)).toList();
       // subjects.forEach((e) => print(e.image));
       return subjects;
     } else {

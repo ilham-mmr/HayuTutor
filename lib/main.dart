@@ -38,8 +38,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (BuildContext context) => TutorSessionProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => FavoriteTutorListProvider(),
+        ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'HayuTutor',
         theme: ThemeData(
             primaryColor: Color(0xFF1D4E56),

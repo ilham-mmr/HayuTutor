@@ -28,6 +28,13 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('My Tutoring Sessions'),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () {
+              // Navigator.pushNamed(context, '/payment-screen');
+            },
+          ),
+          ListTile(
             title: Text('Log Out'),
             trailing: Icon(Icons.arrow_forward),
             onTap: () {

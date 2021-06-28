@@ -290,12 +290,12 @@ class _SigninScreenState extends State<SigninScreen> with UserValidator {
       if (isSignedIn) {
         // set preferences if logged in
         await UserPreferences.setId(user.id);
-
+        await UserPreferences.setEmail(_email);
+        await UserPreferences.setFullName(user.fullName);
+        await UserPreferences.setPicture(user.picture);
+        await UserPreferences.setRegistrationDate(user.registrationDate);
         if (_rememberMe) {
-          await UserPreferences.setEmail(_email);
-          await UserPreferences.setFullName(user.fullName);
-          await UserPreferences.setPicture(user.picture);
-          await UserPreferences.setRegistrationDate(user.registrationDate);
+          await UserPreferences.setRememberMe(true);
         }
         Navigator.pushNamedAndRemoveUntil(
             context, '/home-screen', (route) => false);

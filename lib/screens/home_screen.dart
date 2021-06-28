@@ -1,7 +1,7 @@
 import 'package:flutapp/models/subjects.dart';
 import 'package:flutapp/models/tutors.dart';
 import 'package:flutapp/models/user.dart';
-import 'package:flutapp/screens/search_tutor_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/sessions_screen.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutapp/widgets/app_drawer.dart';
 import 'package:flutapp/widgets/bottom_nav_FAB.dart';
@@ -64,10 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (content) =>
-                                          SearchTutorScreen()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (content) => SessionsScreen(),
+                                ),
+                              );
                             },
                             child: TextFormField(
                               enabled: false,
@@ -106,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .map<Widget>(
                                                 (subjectItem) => SubjectCard(
                                                       subject: subjectItem,
+                                                      tappable: true,
                                                     ))
                                             .toList(),
                                       );
@@ -137,10 +139,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       })
                                 ],
                               ),
-                              Text(
-                                'See All',
-                                style: TextStyle(
-                                  fontSize: 18,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/see-all-screen');
+                                },
+                                child: Text(
+                                  'See All',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Theme.of(context).primaryColor),
                                 ),
                               ),
                             ],
@@ -157,13 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
 
                                 var data = snapshot.data;
+                                var subList = data.sublist(0, 3);
                                 print('hihi');
-                                data.map((item) => print(item.fullName));
+                                subList.map((item) => print(item.fullName));
                                 return Column(
                                   children: data
                                       .map<Widget>((tutorItem) => TutorCard(
-                                            tutor: tutorItem,
-                                          ))
+                                          tutor: tutorItem, showButton: false))
                                       .toList(),
                                 );
                               },

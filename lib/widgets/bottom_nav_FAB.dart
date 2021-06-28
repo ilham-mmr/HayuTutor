@@ -1,3 +1,4 @@
+import 'package:flutapp/screens/favorite_screen.dart';
 import 'package:flutapp/screens/tutor_sessions/add_session_screen.dart';
 import 'package:flutapp/screens/tutor_sessions/sessions_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,14 @@ class BottomNavFAB extends StatelessWidget {
           children: [
             Expanded(
               child: _customIconButton(
-                  iconData: Icons.favorite, label: 'Favorite', onTap: () {}),
+                  iconData: Icons.favorite,
+                  label: 'Favorite',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (content) => FavoriteScreen()));
+                  }),
             ),
             Expanded(
               child: _customIconButton(
