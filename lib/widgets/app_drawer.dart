@@ -1,4 +1,5 @@
 import 'package:flutapp/utils/user_preferences.dart';
+import 'package:flutapp/widgets/user_drawer_header.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -8,35 +9,36 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text('Drawer Header'),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+        children: [
+          UserDrawerHeader(),
           ListTile(
             title: Text('Home'),
-            trailing: Icon(Icons.arrow_forward),
-            onTap: () {},
+            leading: Icon(Icons.home),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/home-screen');
+            },
           ),
           ListTile(
             title: Text('Profile'),
-            trailing: Icon(Icons.arrow_forward),
+            leading: Icon(
+              Icons.account_box,
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/userprofile-screen');
             },
           ),
           ListTile(
             title: Text('My Tutoring Sessions'),
-            trailing: Icon(Icons.arrow_forward),
+            leading: Icon(
+              Icons.subject_outlined,
+            ),
             onTap: () {
-              // Navigator.pushNamed(context, '/payment-screen');
+              Navigator.pushNamed(context, '/my-tutoring-sessions-screen');
             },
           ),
           ListTile(
             title: Text('Log Out'),
-            trailing: Icon(Icons.arrow_forward),
+            leading: Icon(Icons.exit_to_app),
             onTap: () {
               UserPreferences.removeEmail();
               UserPreferences.removeFullName();
@@ -44,6 +46,7 @@ class AppDrawer extends StatelessWidget {
               UserPreferences.removeId();
               UserPreferences.removeRegistrationDate();
               UserPreferences.removeRememberMe();
+              UserPreferences.removeIsTutor();
 
               Navigator.pushNamedAndRemoveUntil(
                   context, '/landing-screen', (route) => false);
