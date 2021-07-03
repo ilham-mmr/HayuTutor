@@ -21,7 +21,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     String email = UserPreferences.getEmail();
     String fullName = UserPreferences.getFullName();
     double amount = widget.tutorSession.price;
-    int sessionId = widget.tutorSession.sessionId;
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment'),
