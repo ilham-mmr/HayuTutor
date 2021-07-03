@@ -1,5 +1,7 @@
+import 'package:flutapp/models/image_cus_provider.dart';
 import 'package:flutapp/models/user.dart';
 import 'package:flutapp/utils/user_preferences.dart';
+import 'package:flutapp/widgets/profile_picture_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,45 +27,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   bool _isTutor = false;
   @override
   void initState() {
+    fetchDataFromPreferences();
+
     super.initState();
-
-    rememberMe = UserPreferences.getRememberMe() ?? false;
-    if (rememberMe) {
-      // fetchDataFromPreferences();
-      return;
-    }
-
-    //fetch from providers.
-    user = Provider.of<User>(context, listen: false);
-
-    // id = user.id;
-    // email = user.userEmail;
-    // fullName = user.fullName;
-    // picture = user.picture;
-    // registrationDate = user.registrationDate;
-    // _isTutor = user.isTutor;
   }
 
-  // void fetchDataFromPreferences() {
-  //   id = UserPreferences.getId();
-  //   email = UserPreferences.getEmail();
-  //   fullName = UserPreferences.getFullName();
-  //   picture = UserPreferences.getPicture();
-  //   registrationDate = UserPreferences.getRegistrationDate();
-  // }
+  void fetchDataFromPreferences() {
+    id = UserPreferences.getId();
+    email = UserPreferences.getEmail();
+    fullName = UserPreferences.getFullName();
+    picture = UserPreferences.getPicture();
+    registrationDate = UserPreferences.getRegistrationDate();
+
+    _emailController.text = email;
+    _fullNameController.text = fullName;
+  }
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = email;
-    _fullNameController.text = fullName;
-    // user = Provider.of<User>(context, listen: true);
-
-    // id = user.id;
-    // email = user.userEmail;
-    // fullName = user.fullName;
-    // picture = user.picture;
-    // registrationDate = user.registrationDate;
-    // _isTutor = user.isTutor;
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -71,7 +52,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           IconButton(
             icon: Icon(Icons.save),
             tooltip: 'Save Profile Setting',
-            onPressed: () {},
+            onPressed: () {
+              _onSave();
+            },
           ),
         ],
       ),
@@ -82,7 +65,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             margin: EdgeInsets.all(18),
             child: Column(
               children: [
-                // ProfilePicturePicker(picture),
+                ProfilePicturePicker(picture),
                 Container(
                   margin: EdgeInsets.all(18),
                   padding: EdgeInsets.all(6),
@@ -118,22 +101,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     controller: _fullNameController,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(18),
-                  padding: EdgeInsets.all(6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Tutor'),
-                      Switch(value: _isTutor, onChanged: (value) {}),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _onSave() async {
+    String encodedBase64string =
+        Provider.of<ImageCusProvider>(context, listen: false).base64Image;
+    print(encodedBase64string);
+    print(fullName);
+    var user = Provider.of<User>(context, listen: false);
+    bool isSaved = await user.updateProfile(id, fullName, encodedBase64string);
+
+    UserPreferences.removeFullName();
+    UserPreferences.removePicture();
+    await UserPreferences.setFullName(user.fullName);
+    await UserPreferences.setPicture(user.picture);
+    if (isSaved) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Successfully updated the profile')));
+      return;
+    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Failed to update the profile')));
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,6 +42,35 @@ class User with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  Future<bool> updateProfile(
+      int id, String fullName, String encodedBase64string) async {
+    var url = Uri.parse('https://luxfortis.studio/app/update_user_profile.php');
+
+    Map body = {
+      'id': id.toString(),
+      'fullName': fullName,
+    };
+
+    if (encodedBase64string.isNotEmpty) {
+      body['encoded_base64string'] = encodedBase64string;
+    }
+    print(body);
+    var response = await http.post(url, body: body);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(data);
+
+    if (data['status'] == 'success') {
+      id = data['user']['id'];
+      fullName = data['user']['full_Name'];
+      picture = data['user']['picture'];
+
+      notifyListeners();
+      return true;
+    }
+
+    return false;
   }
 
   Future<bool> forgotPassword(String email) async {

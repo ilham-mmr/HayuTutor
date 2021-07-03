@@ -7,6 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePicturePicker extends StatefulWidget {
+  final String networkImageLink;
+  // optional constructor parameters
+  ProfilePicturePicker([this.networkImageLink = "empty"]);
   @override
   _ProfilePicturePickerState createState() => _ProfilePicturePickerState();
 }
@@ -22,9 +25,11 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
       backgroundColor: Theme.of(context).primaryColor,
       radius: 65,
       backgroundImage: _image == null
-          ? AssetImage(
-              'assets/images/person.png',
-            )
+          ? widget.networkImageLink == "empty"
+              ? AssetImage(
+                  'assets/images/person.png',
+                )
+              : NetworkImage(widget.networkImageLink)
           : FileImage(_image),
       child: Align(
           alignment: Alignment.bottomCenter,
