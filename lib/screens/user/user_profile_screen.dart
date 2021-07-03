@@ -1,79 +1,38 @@
-import 'package:flutapp/models/user.dart';
 import 'package:flutapp/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({key}) : super(key: key);
-
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  int id;
-  String email, fullName, picture, registrationDate;
-  bool rememberMe;
+  TextEditingController _idController = TextEditingController();
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _registrationDateController = TextEditingController();
 
-  User user;
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _fullNameController = new TextEditingController();
+  String picture;
 
-  var refreshKey = GlobalKey<RefreshIndicatorState>();
-
-  bool _readOnlyFullName = true;
-  bool _isTutor = false;
   @override
   void initState() {
+    fetchDataFromPreferences();
     super.initState();
-
-    rememberMe = UserPreferences.getRememberMe() ?? false;
-    if (rememberMe) {
-      // fetchDataFromPreferences();
-      return;
-    }
-
-    //fetch from providers.
-    user = Provider.of<User>(context, listen: false);
-
-    // id = user.id;
-    // email = user.userEmail;
-    // fullName = user.fullName;
-    // picture = user.picture;
-    // registrationDate = user.registrationDate;
-    // _isTutor = user.isTutor;
   }
 
-  // void fetchDataFromPreferences() {
-  //   id = UserPreferences.getId();
-  //   email = UserPreferences.getEmail();
-  //   fullName = UserPreferences.getFullName();
-  //   picture = UserPreferences.getPicture();
-  //   registrationDate = UserPreferences.getRegistrationDate();
-  // }
+  void fetchDataFromPreferences() {
+    _idController.text = UserPreferences.getId().toString();
+    _emailController.text = UserPreferences.getEmail();
+    _fullNameController.text = UserPreferences.getFullName();
+    picture = UserPreferences.getPicture();
+    _registrationDateController.text = UserPreferences.getRegistrationDate();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = email;
-    _fullNameController.text = fullName;
-    // user = Provider.of<User>(context, listen: true);
-
-    // id = user.id;
-    // email = user.userEmail;
-    // fullName = user.fullName;
-    // picture = user.picture;
-    // registrationDate = user.registrationDate;
-    // _isTutor = user.isTutor;
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            tooltip: 'Save Profile Setting',
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -82,10 +41,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             margin: EdgeInsets.all(18),
             child: Column(
               children: [
-                // ProfilePicturePicker(picture),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(picture),
+                  radius: 50,
+                ),
                 Container(
-                  margin: EdgeInsets.all(18),
-                  padding: EdgeInsets.all(6),
+                  margin: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(2),
+                  child: TextField(
+                    textInputAction: TextInputAction.done,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: 'User ID',
+                    ),
+                    controller: _idController,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(2),
                   child: TextField(
                     textInputAction: TextInputAction.done,
                     readOnly: true,
@@ -96,37 +70,27 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(18),
-                  padding: EdgeInsets.all(6),
+                  margin: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(2),
                   child: TextField(
                     textInputAction: TextInputAction.done,
-                    readOnly: _readOnlyFullName,
-                    onChanged: (value) => fullName = value,
+                    readOnly: true,
                     decoration: InputDecoration(
-                      hintText: fullName,
                       labelText: 'Full Name',
-                      suffixIcon: IconButton(
-                          icon: !_readOnlyFullName
-                              ? Icon(Icons.check)
-                              : Icon(Icons.edit),
-                          onPressed: () {
-                            setState(() {
-                              _readOnlyFullName = !_readOnlyFullName;
-                            });
-                          }),
                     ),
                     controller: _fullNameController,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(18),
-                  padding: EdgeInsets.all(6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Tutor'),
-                      Switch(value: _isTutor, onChanged: (value) {}),
-                    ],
+                  margin: EdgeInsets.all(6),
+                  padding: EdgeInsets.all(2),
+                  child: TextField(
+                    textInputAction: TextInputAction.done,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: 'Registration Date',
+                    ),
+                    controller: _registrationDateController,
                   ),
                 ),
               ],
