@@ -165,9 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
 
                                 var data = snapshot.data;
-                                var subList = data.sublist(0, 3);
+                                // var subList = data.sublist(0, 3);
                                 print('hihi');
-                                subList.map((item) => print(item.fullName));
+                                data.map((item) => print(item.fullName));
                                 return Column(
                                   children: data
                                       .map<Widget>((tutorItem) => TutorCard(

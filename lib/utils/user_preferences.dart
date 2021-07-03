@@ -9,6 +9,7 @@ class UserPreferences {
   static const _keyPicture = 'picture';
   static const _keyRegistrationDate = 'registrationDate';
   static const _keyRememberMe = 'rememberMe';
+  static const _keyIsTutor = 'isTutor';
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -44,4 +45,10 @@ class UserPreferences {
       await _preferences.setBool(_keyRememberMe, rememberMe);
   static bool getRememberMe() => _preferences.getBool(_keyRememberMe);
   static Future removeRememberMe() => _preferences.remove(_keyRegistrationDate);
+
+  // isTutor
+  static Future setIsTutor(bool isTutor) async =>
+      await _preferences.setBool(_keyIsTutor, isTutor);
+  static bool getIsTutor() => _preferences.getBool(_keyIsTutor);
+  static Future removeIsTutor() => _preferences.remove(_keyIsTutor);
 }

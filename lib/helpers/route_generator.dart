@@ -2,9 +2,11 @@ import 'package:flutapp/helpers/noanimation_page_route.dart';
 import 'package:flutapp/screens/auth/signin_screen.dart';
 import 'package:flutapp/screens/auth/signup_screen.dart';
 import 'package:flutapp/screens/detail_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/edit_my_session_screen.dart';
 import 'package:flutapp/screens/favorite_screen.dart';
 import 'package:flutapp/screens/home_screen.dart';
 import 'package:flutapp/screens/landing_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/my_tutoring_sessions.dart';
 import 'package:flutapp/screens/payment_screen.dart';
 import 'package:flutapp/screens/see_all_screen.dart';
 import 'package:flutapp/screens/sessions_subject_screen.dart';
@@ -49,6 +51,13 @@ class RouteGenerator {
         return NoAnimationMaterialPageRoute(
             builder: (_) => SessionSubjectScreen(
                   title: args,
+                ));
+      case '/my-tutoring-sessions-screen':
+        return MaterialPageRoute(builder: (_) => MyTutoringSessions());
+      case '/edit-my-session-screen':
+        return MaterialPageRoute(
+            builder: (_) => EditMySessionScreen(
+                  tutorSession: args,
                 ));
       default:
         // If there is no such named route in the switch statement, e.g. /third

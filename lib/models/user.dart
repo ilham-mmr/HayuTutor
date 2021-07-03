@@ -6,6 +6,7 @@ class User with ChangeNotifier {
   int id;
   String fullName, email, registrationDate, picture;
   String _forgotOtp, _forgotEmail;
+  bool isTutor;
 
   Future<bool> signUp(String fullname, String email, String password,
       String encodedBase64string) async {
@@ -34,6 +35,7 @@ class User with ChangeNotifier {
       email = data['user']['email'];
       registrationDate = data['user']['registration_date'];
       picture = data['user']['picture'];
+      isTutor = data['user']['isTutor'] == 1 ? true : false;
       notifyListeners();
       return true;
     } else {
@@ -64,8 +66,6 @@ class User with ChangeNotifier {
     return response.body == 'success' ? true : false;
   }
 
-  
-
   String get forgotOtp {
     return _forgotOtp;
   }
@@ -73,6 +73,4 @@ class User with ChangeNotifier {
   String get forgotEmail {
     return _forgotEmail;
   }
-
-
 }

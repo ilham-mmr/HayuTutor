@@ -294,6 +294,7 @@ class _SigninScreenState extends State<SigninScreen> with UserValidator {
         await UserPreferences.setFullName(user.fullName);
         await UserPreferences.setPicture(user.picture);
         await UserPreferences.setRegistrationDate(user.registrationDate);
+        await UserPreferences.setIsTutor(user.isTutor);
         if (_rememberMe) {
           await UserPreferences.setRememberMe(true);
         }
