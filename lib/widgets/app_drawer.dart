@@ -37,6 +37,15 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('Payment History'),
+            leading: Icon(
+              Icons.payment,
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/payment-history-screen');
+            },
+          ),
+          ListTile(
             title: Text('Log Out'),
             leading: Icon(Icons.exit_to_app),
             onTap: () {

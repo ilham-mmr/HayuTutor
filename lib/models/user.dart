@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutapp/models/payment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -72,5 +73,21 @@ class User with ChangeNotifier {
 
   String get forgotEmail {
     return _forgotEmail;
+  }
+
+  getPaymentHistory(String email) async {
+    var url = Uri.parse(
+        'https://luxfortis.studio/app/payment/load_payments.php?email=$email');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200 && response.body != 'failed') {
+      var data = jsonDecode(response.body);
+
+      data = data['payment'];
+      List<Payment> paymentList =
+          data.map<Payment>((item) => Payment.fromJson(item)).toList();
+      return paymentList;
+    }
+    return [];
   }
 }
