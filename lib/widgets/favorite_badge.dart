@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutapp/models/tutors.dart';
-import 'package:flutapp/screens/favorite_screen.dart';
+import 'package:flutapp/screens/user/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

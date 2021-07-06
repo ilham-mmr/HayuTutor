@@ -1,5 +1,5 @@
 import 'package:flutapp/models/tutor_session.dart';
-import 'package:flutapp/screens/detail_screen.dart';
+import 'package:flutapp/screens/tutor_sessions/detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class SessionCard extends StatelessWidget {

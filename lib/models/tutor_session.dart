@@ -177,7 +177,6 @@ class TutorSessionProvider with ChangeNotifier {
     return [];
   }
 
-  List tutorSessionSubjectList = [];
   getSessionsBySubject(String keyword) async {
     var url = Uri.parse(
         'https://luxfortis.studio/app/tutors/load_sessions.php?keyword=$keyword');
@@ -186,7 +185,8 @@ class TutorSessionProvider with ChangeNotifier {
 
     if (response.statusCode == 200 && data['status'] == 'success') {
       data = data['data']['sessions'];
-      tutorSessionSubjectList = data
+      print(keyword);
+      List tutorSessionSubjectList = data
           .map<TutorSession>((item) => TutorSession.fromJson(item))
           .toList();
       return tutorSessionSubjectList;
