@@ -26,5 +26,4 @@ The following are some screens captured from the app :
   <img src="./preview/appdrawer.png" height="300px" alt="app drawer">
 </p>
 
-## Video Presentation
-[![Watch the video](https://i3.ytimg.com/vi/8iUNNPw9euE/maxresdefault.jpg)](https://youtu.be/8iUNNPw9euE)
+
